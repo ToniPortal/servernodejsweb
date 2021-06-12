@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+        <meta name="keywords" content="HTML, CSS, JavaScript, Portalframino, PortalFr">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, user-scalable=yes" />
+        <title>Puissance 4</title>
+
+      <!--  Scripts-->
+      <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+      
+  <!-- CSS  -->
+  <link rel="stylesheet" href="/material">
+</head>
+<body>
+        <nav style="background-color: #056ab3;"> 
+                <!-- Navbar content -->
+               <div class="nav-wrapper">
+                 <a href="/amino" class="brand-logo">PortalFr</a>
+                 <ul class="right hide-on-med-and-down">
+                   <li><a href="/">????</a></li>
+                   <li><a href="/accueil">Accueil</a></li>
+                   <li><a href="/">Refresh</a></li>
+                   <li><a href="/autre">Autre</a></li>
+                 </ul>
+               </div>
+             </nav>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <div class="row center">
+        <h5 class="header col s12 blue-text">Tu es sur la page du Puissance 4</h5>
+      </div>
+      <div class="row center">
+        <a    class="btn-large waves-effect waves-light grey"onclick="app.newGame(true)">Nouvelle partie contre l'ordinateur</a>
+        <a    class="btn-large waves-effect waves-light grey"onclick="app.newGame(false)">Nouvelle partie à 2 joueurs</a>
+        <a    class="btn-large waves-effect waves-light grey"onclick="javascript:window.open('http://fr.wikipedia.org/wiki/Puissance_4','Règles du Puissance 4');">Règles</a>
+    </div>
+      <br><br>
+
+    </div>
+  </div>
+
+<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+
+
+<script>
+
+
+(function(app){
+
+var grid = new Array(6);
+var TIME_FALL = 500, TIME_PICK = 250;
+var currentPlayer, nextJeton, vsComputer;
+var message;
+
+$(document).ready(function() {
+    message = $("#message");
+    for(var c=0;c<7;c++)
+    {
+        $('<div class="trou" data-col="'+c+'"></div>')
+            .css({ left: getPxfromCol(c), top: '15px'})
+            .on('mouseover', function(){ if(!app.paused) app.overColumn($(this).data('col')); })
+            .on('click', function(){ if(!app.paused) app.chooseColumn($(this).data('col')); })
+            .appendTo('#grille');
+
+        for(var l=0;l<6;l++)
+        {
+            $('<img class="grille" src="https://servernodejsweb.herokuapp.com/puissance4/images/grille.png">')
+                .css({ left: getPxfromCol(c), top: getPxfromLine(l)})
+                .appendTo('#grille');
+        }
+    }
+});
+
+function getPxfromCol(col) { return (15+col*110);}
+function getPxfromLine(line) { return (125+(5-line)*110);}
+
+app.newGame = function(mode){
+    $('.jeton').remove();
+    for(var l=0;l<6;l++) {
+        grid[l]=[0,0,0,0,0,0,0];
+        for(var c=0;c<7;c++) {
+            var n = c+7*l;
+            $('<img class="jeton" id="j'+n+'" src="https://servernodejsweb.herokuapp.com/puissance4/images/'+(n%2==0 ? "jaune":"rouge")+'.png">')
+                .css({ left: -215+(n%2)*1140, top: 400+parseInt((n-1)/2)*15 })
+                .appendTo('#grille');
+        }
+    }
+    nextJeton = 0;
+    vsComputer = mode;
+    app.paused = false;
+    currentPlayer = 1;
+    message.removeAttr('style').text("Cliquez au dessus de la colonne choisie.");
+};
+
+app.overColumn = function(c){
+    $('#j'+nextJeton).stop().animate({ left: getPxfromCol(c), top:15}, TIME_PICK);
+};
+
+app.chooseColumn = function(colonne){
+    if(colonne < 0
+    || colonne > 6
+    || grid[5][colonne] !== 0) return;
+    var ligne=0;
+    while(grid[ligne][colonne] != 0) { ligne++; }
+    grid[ligne][colonne]= currentPlayer;
+    app.paused = true;
+    $('#j'+nextJeton)
+    .stop()
+    .css({ left: getPxfromCol(colonne), top: 15})
+    .animate({ left: getPxfromCol(colonne), top: getPxfromLine(ligne)}, TIME_FALL, function(){
+        nextJeton++;
+        if(app.testWin(currentPlayer,ligne,colonne)) {
+            app.paused = true;
+            message.text("Les "+(currentPlayer==1 ? "jaunes" : "rouges")+" ont gagné !")
+                   .css({ fontSize: '36px', width: '600px'});
+        } else if(nextJeton >= 42){
+            app.paused = true;
+            message.text("Egalité !")
+                   .css({ fontSize: '36px', width: '600px'});
+        } else {
+            currentPlayer = currentPlayer%2 +1;
+            if(vsComputer && currentPlayer==2) {
+                message.text("L'ordinateur réfléchit...");
+                app.getIAChoice();
+            } else {
+                message.text(vsComputer ? "A votre tour de jouer." : "Aux "+(currentPlayer==1 ? "jaunes" : "rouges")+" de jouer.");
+                app.paused = false;
+                app.overColumn(colonne);
+            }
+        }
+    });
+};
+
+app.getIAChoice = function(){
+    setTimeout(function(){
+        var choix = choix_ia(grid, nextJeton); //cf ia.js
+        app.overColumn(choix);
+        setTimeout(function(){
+            app.chooseColumn(choix)
+        }, TIME_PICK+100);
+    }, 100);
+};
+
+app.testWin = function(j,l,c) {
+    var count, dc, dl, msg;
+    //test alignement vertical
+    count=0;
+    for(dl=0; dl<6; dl++){
+        if(grid[dl][c]==j) count++; else count=0;
+        if(count>=4) return true;
+    }
+    //test alignement horizontal
+    count=0;
+    for(dc=0; dc<7; dc++){
+        if(grid[l][dc]==j) count++; else count=0;
+        if(count>=4) return true;
+    }
+    //test diagonale bas-droite
+    count=0;
+    for(dc=0; dc<7; dc++){
+        if(l-c+dc>=0 && l-c+dc<6 && grid[l-c+dc][dc]==j) count++; else count=0;
+        if(count>=4) return true;
+    }
+    //test diagonale bas-gauche
+    count=0;
+    for(dc=0; dc<7; dc++){
+        if(l+c-dc>=0 && l+c-dc<6 && grid[l+c-dc][dc]==j) count++; else count=0;
+        if(count>=4) return true;
+    }
+    return false;
+}
+})(window.app = {});
+//MAIN.js
+</script>
+    <script src="https://syllab.fr/projets/games/p4/js/ia.js"></script>
+    <style>
+
+body {
+background: black
+}
+
+h1 {
+    color:white;
+    margin:20px 0 0 20px;
+    float: left;
+    font-size: 2em;
+}
+
+#grille
+{
+    width:800px;
+    height:800px;
+    margin: 40px auto 0 auto;
+    background-color: rgba(255,255,255,0.1);
+    position: relative;
+}
+
+
+ a {
+	text-align: center;
+	font-size: medium;
+	display:block;
+
+	color:white;
+	text-decoration:none;
+}
+#message
+{
+    font: bold 16px Arial, sans-serif;
+    text-align:center;
+    width:400px;
+    margin: 0 auto;
+    padding:5px;
+    display:block;
+    background:#04a;
+    color:#fff;
+    text-shadow:0 0 20px #fff, 0 0 12px #fff;
+}
+
+.grille
+{
+    position:absolute;
+    width:110px;
+    height:110px;
+    border:0;
+    z-index:1;
+}
+
+.trou
+{
+    position:absolute;
+    width:110px;
+    height:770px;
+    border:0;
+    z-index:2;
+}
+
+.jeton
+{
+    position:absolute;
+    width:90px;
+    height:90px;
+    border:0;
+    margin: 10px;
+}
+    </style>
+</head>
+
+<body>
+
+    <div id="grille"><span id="message">Cliquez sur Nouvelle partie pour commencer</span></div>
+
+    <br><br>
+    <div class="center">
+    <a href="https://syllab.fr/projets/games/p4/" class="btn-large waves-effect waves-light grey">Lien original: https://syllab.fr/projets/games/p4/ </a>
+  </div>
+  <br>
+  <br>
+
+    <footer class="page-footer blue">
+
+            <div class="footer-copyright">
+              <div class="container">
+        <a class="white-text text-lighten-3" >Crée par Bouftout</a>
+
+              
+              </div>
+            </div>
+          </footer>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, length=device-length, user-scalable=yes" />
+
+  <title>PortalFr</title>
+
+  <!-- CSS  -->
+  <style>
+  html, body {
+	height: 100%;
+	margin: 0; padding: 0;
+}
+body {
+	display : table;
+	width: 100%;
+}
+footer {
+	display : table-row;
+	height: 10px; /* à titre d'exemple */
+}
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Script  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body id="element">
+
+  <nav style="background-color: #0192fa;"> 
+    <!-- Navbar content -->
+   <div class="nav-wrapper">
+     <a href="/amino" class="brand-logo"><i class="material-icons">cloud</i>PortalFr</a>
+     <ul class="right hide-on-med-and-down">
+       <li><a href="/search"><i class="material-icons">search</i></a></li>
+       <li><a href="/accueil"><i class="material-icons">view_module</i></a></li>
+       <li><a href="/"><i class="material-icons">refresh</i></a></li>
+       <li><a href="/autre"><i class="material-icons">more_vert</i></a></li>
+     </ul>
+   </div>
+ </nav>
+
+<button id="button1" class="">1</button><br><br>
+<div id="mydiv1" style="display:none">
+<audio id="audio1" controls>
+<source src="https://servernodejsweb.herokuapp.com/Portal1.mp3"></source>
+</audio>
+</div>
+<div class="center">
+      <img id='image' src="https://servernodejsweb.herokuapp.com/ampoule/feed.png" alt="" />
+      <br><br>
+      <a  id="allu"class="btn-large waves-effect waves-light orange" onclick="allumé()">allumé</a>
+      <a  id="etein"class="btn-large waves-effect waves-light orange" onclick="éteindre()">éteindre</a>
+
+      <div id='chargementahide'class="preloader-wrapper big active hide">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+
+      <h4 id="msghidebutton" class="hide">Veut tu démarré le bot de secours ?</H4>
+
+      <a  id="ouibotdemarrageid" class="hide" onclick="ouibotdemarrage()">Oui</a>
+
+<h4 id="msghide" class="hide grey-text">Le bot de secours se charge...</H4>
+
+
+
+      <div id="botadehide" class="row hide">
+        <div class="col s12 m6">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Bot de secours</span>
+              <p id='message'></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- class center -->
+
+<!--Button hide ou pas-->
+      <a  id="ouireppareconnerieid" class="btn-large waves-effect waves-light orange hide" onclick="ouireppareconnerie()">Oui</a>
+<br>
+<a  id="nonreppareconnerieid" class="btn-large waves-effect waves-light blue hide" onclick="nonreppareconnerie()">Non</a>
+
+
+
+
+<script type="text/javascript">
+var dive = "0"
+function nonreppareconnerie() {
+  document.getElementById('ouireppareconnerieid').className = "btn-large waves-effect waves-light orange hide";
+  document.getElementById('nonreppareconnerieid').className = "btn-large waves-effect waves-light blue hide";
+
+  document.getElementById('message').innerHTML = 'Ah ben alors on veut pas m\'aidez';
+  setTimeout(function(){ 
+    document.getElementById('message').innerHTML = 'Ah ben TU SAIS QUOI';
+    setTimeout(function(){ 
+    document.getElementById('message').innerHTML = 'TEMP PIS POUR TOI CONNARD';
+    setTimeout(function(){ 
+document.getElementById('botadehide').className = "row center hide";
+},2000)
+setTimeout(function(){ 
+document.getElementById('botadehide').className = "row center";
+
+setTimeout(function(){ 
+  document.getElementById('message').innerHTML = 'Ben que que tu fous la ?';
+
+  setTimeout(function(){ 
+  document.getElementById('message').innerHTML = "Tu sais je t'ai de partir,j'aimerais vraiment que tu parte";
+
+  setTimeout(function(){ 
+  document.getElementById('message').innerHTML = "J'aimerais vraiment pas utulisez 'ceci'";
+
+  setTimeout(function(){ 
+  document.getElementById('message').innerHTML = "Alors s'il te plaît va t'en";
+
+  setTimeout(function(){ 
+  document.getElementById('message').innerHTML = "C'est la dernière fois que je le dis va t'en !";
+
+  setTimeout(function(){ 
+  document.getElementById('message').innerHTML = "T'en pis pour toi !";
+
+  setTimeout(function(){ 
+    document.location.href="/"
+
+},1000)
+
+},10000)
+
+},4000)
+
+},4000)
+
+},4000)
+
+},2000)
+
+},100)
+
+},30000)
+
+  },3000)
+
+  },3000)
+}
+
+function ouireppareconnerie() {
+  setTimeout(function(){ 
+  document.getElementById('ouireppareconnerieid').className = "btn-large waves-effect waves-light orange hide";
+
+  document.getElementById('nonreppareconnerieid').className = "btn-large waves-effect waves-light blue hide";
+
+
+
+  setTimeout(function(){ 
+    
+  document.getElementById('message').innerHTML = 'Ah ben alors on veut réparé ça connerie !';
+
+  setTimeout(function(){ 
+  document.getElementById('message').innerHTML = 'Mauvaise nouvelle je n\'ai pas trouvé de moyen de réparé ta connerie.';
+
+  setTimeout(function(){ 
+  document.getElementById('message').innerHTML = 'Ah,attend je reviens.';
+
+  setTimeout(function(){ 
+    document.getElementById('message').innerHTML = 'Je regle un truc et j\'arrive.';
+    setTimeout(function(){ 
+  document.getElementById('message').innerHTML = 'C\'est bon,Appuie sur le bouton 1,normalement j\'ai réglé un truc pour que ça marche,c\'etait bien galere d\'ailleur,non en vrai ça ma pris pas longtemp mais voila quoi fallait le faire';
+  $(function(){   
+  $('button').on('click',function(e){
+	$('audio').each(function(){
+		this.pause(); // Stop playing
+      this.currentTime = 0; // Reset time
+      if(this.currentTime = 7235){
+ook()
+      }
+		}); 
+    $('div').css('display','yes');
+    $('#mydiv'+this.innerHTML).toggle(); 
+    $('audio').each(function(){
+		this.play();
+		});   
+	});
+});
+setTimeout(function(){ 
+  document.getElementById('message').innerHTML = "Oh d'ailleur si tu n'a toujours pas trouvé la solution il faut juste allez a la fin de la musique et après appuyer sur le 1";
+
+}, 30000 )
+
+}, 6000 )
+
+}, 3000 )
+
+}, 2000 )
+
+}, 3000 )
+
+}, 50 )
+
+}, 50);
+}
+
+function ook(){
+  document.getElementById('message').innerHTML = "Bravo tu a trouvé ; Ou tu a juste attendu donc j'ai t'ai donné la réponse !";
+  document.getElementById('button1').className = "hide";
+
+  setTimeout(function(){ 
+  document.getElementById('message').innerHTML = "Bon j'ai un peu chercher et j'en encore rien trouvé donc j'aimerais que tu patiente encore un peu";
+
+}, 10000 )
+
+
+}
+
+
+
+
+
+
+
+if(dive == "0"){
+$(function(){    
+$('button').on('click',function(e){
+	$('audio').each(function(){
+		this.pause(); // Stop playing
+			this.currentTime = 0; // Reset time
+		}); 
+    $('div').css('display','block');
+    $('#mydiv'+this.innerHTML).toggle();   
+	});
+});
+}
+   var chiffre = '0'
+   function ouibotdemarrage() {
+    
+    setTimeout(function(){ 
+      document.getElementById('msghidebutton').className = "red-text hide";
+      document.getElementById('ouibotdemarrageid').className = "btn-large waves-effect waves-light red black-text hide";
+ 
+    setTimeout(function(){ 
+      document.getElementById('msghide').className = "grey-text";
+      document.getElementById('chargementahide').className = "preloader-wrapper big active";
+
+        setTimeout(function(){ 
+          document.getElementById('msghide').className = "hide";
+          document.getElementById('chargementahide').className = "preloader-wrapper big active hide";
+          setTimeout(function(){ 
+    document.getElementById('botadehide').className = "row center";
+    setTimeout(function(){ 
+
+        document.getElementById('message').innerHTML = 'Salut salut je suis enfin la !!';
+        setTimeout(function(){ 
+          document.getElementById('message').innerHTML = 'Merci de m\'avoir démarré !\nJe suis la Pour t\'aidez !';
+        setTimeout(function(){ 
+
+document.getElementById('message').innerHTML = 'Mais bon passons a autre chose; Alors ça va ?';
+setTimeout(function(){ 
+
+document.getElementById('message').innerHTML = 'Oh bon...on veut pas me parlez,ok...';
+setTimeout(function(){ 
+
+document.getElementById('message').innerHTML = 'Bon temps pis !!';
+setTimeout(function(){ 
+
+document.getElementById('message').innerHTML = 'Mais je vais devoir quand même reparer ta connerie tu veut ou pas ?';
+//mettre button puis faire 2 reponse ou sa part dans 2 truc différent puis dans cela plusieurs !
+setTimeout(function(){ 
+  document.getElementById('ouireppareconnerieid').className = "btn-large waves-effect waves-light orange";
+
+  document.getElementById('nonreppareconnerieid').className = "btn-large waves-effect waves-light blue";
+
+
+}, 1000);
+
+}, 3000);
+
+}, 4000);
+
+}, 7000);
+}, 4000);
+
+}, 3000);
+
+}, 3000);
+
+}, 2000);//Botadehide
+
+}, 10000);
+
+}, 1000);  //Msg le bot se démare
+
+}, 50); 
+
+   }
+function allumé() {
+
+    document.getElementById('image').src = "http://servernodejsweb.herokuapp.com/ampoule/feed-blue.png";
+    document.getElementById('allu').className = "btn-large waves-effect waves-light orange hide";
+    document.getElementById('etein').className = "btn-large waves-effect waves-light orange";
+
+    chiffre++
+    if(chiffre > '6'){
+        document.getElementById('allu').className = "btn-large waves-effect waves-light orange hide";
+        document.getElementById('etein').className = "btn-large waves-effect waves-light orange hide";
+        document.getElementById('element').style.backgroundColor='#000';
+        document.getElementById('image').src = "";
+
+
+setTimeout(function(){ 
+  document.getElementById('chargementahide').className = "preloader-wrapper big active"; //preloader qui s'active après 10s
+
+  setTimeout(function(){ 
+    document.getElementById('chargementahide').className = "preloader-wrapper big active hide";
+
+    document.getElementById('msghidebutton').className = "red-text";
+    setTimeout(function(){ 
+      document.getElementById('ouibotdemarrageid').className = "btn-large waves-effect waves-light red black-text";
+
+}, 1000);
+  }, 8000);
+ 
+
+}, 10000);//Preloader et msg
+
+
+        
+        
+}
+}
+function éteindre() {
+ document.getElementById('image').src = "http://servernodejsweb.herokuapp.com/ampoule/feed.png";
+ document.getElementById('etein').className = "btn-large waves-effect waves-light orange hide";
+ document.getElementById('allu').className = "btn-large waves-effect waves-light orange";
+
+}
+</script>
+
+  <style>
+body{
+    background-color: grey
+}
+    a {
+       text-align: center;
+       font-size: medium;
+       display:block;
+   
+       color:white;
+       text-decoration:none;
+   }
+   a:hover {
+       color: #000;
+   }
+   </style>
+
+   <br>   <br>   <br>   <br><br>
+   <br>   <br>   <br>   <br><br>
+   <br>   <br>   <br> <br><br>
+   <br> <br> <br> <br> <br>
+   <br> <br> <br> <br><br>
+   <br> <br> <br> <br><br>
+   <br> <br> <br> <br><br>
+
+
+       <footer class="page-footer blue">
+          <div class="footer-copyright">
+            <div class="container">
+
+
+      <a class="white-text text-lighten-3" >Crée par ToniPortal</a>
+
+      
+            </div>
+          </div>
+        </footer>
+</body>
+</html>
