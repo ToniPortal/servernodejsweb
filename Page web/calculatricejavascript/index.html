@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr-fr">
+
+<head>
+    <meta name="keywords" content="HTML, CSS, JavaScript, Portalframino, PortalFr">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, user-scalable=yes" />
+    <title>PortalFr</title>
+
+    <!-- CSS  -->
+    <link rel="stylesheet" href="/material">
+
+    <style>
+        body {
+            background: rgb(0, 69, 117)
+        }
+        
+        a {
+            text-align: center;
+            font-size: medium;
+            display: block;
+            color: white;
+            text-decoration: none;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            display: table;
+            width: 100%;
+        }
+        
+        footer {
+            display: table-row;
+            height: 10px;
+            /* à titre d'exemple */
+        }
+        
+        .display {
+            background-color: rgb(201, 201, 201);
+            padding: 15px;
+            width: 250px;
+            text-align: right;
+            font-size: 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        
+        button {
+            padding: 10px;
+            width: 67px;
+            height: 45px;
+            margin-top: 10px;
+            background-color: rgb(194, 194, 194);
+            color: black;
+            font-size: 20px;
+        }
+        
+        button:hover {
+            cursor: pointer;
+            background-color: rgb(182, 178, 178);
+        }
+        
+        button:active {
+            background-color: rgb(136, 136, 136);
+        }
+    </style>
+    <script>
+        let afaitsolve = 0
+
+        function removeZero() {
+
+            document.getElementById('output').innerHTML = ' ';
+            afaitsolve--;
+        }
+
+        function fordisplay(numero) {
+            if (afaitsolve == 1) {
+                removeZero()
+                fordisplay(numero)
+
+            } else {
+                var outpoutavant = document.getElementById('output').innerHTML;
+
+                document.getElementById('output').innerHTML = `${outpoutavant}${numero}`;
+            }
+        }
+
+        function retour() {
+
+            var outpoutavant = document.getElementById('output').innerHTML;
+            const str2 = outpoutavant.replace(/.$/, '');
+            console.log(str2);
+
+            document.getElementById('output').innerHTML = `${str2}`;
+
+        }
+
+        function solve() {
+            var equation = document.getElementById("output").innerHTML;
+            var solved = eval(equation);
+            if (solved == 666) {
+                document.getElementById('output').innerHTML = "Démon";
+                document.getElementById('body').style.backgroundColor = 'red';
+            } else {
+                document.getElementById('output').innerHTML = solved;
+            }
+            afaitsolve++;
+        }
+    </script>
+</head>
+
+<body id='body'>
+    <nav style="background-color: #056ab3;">
+        <!-- Navbar content -->
+        <div class="nav-wrapper">
+            <a href="/amino" class="brand-logo">PortalFr</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/accueil">Accueil</a></li>
+                <li><a href="/">Refresh</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <h3 id="output"> </h3>
+    <div class="first-row">
+        <button id="r1-1" onclick="javascript:removeZero()" style="width: 138px;">
+            C
+       </button>
+        <button id="r1-3" onclick="javascript:fordisplay('%')">%</button>
+        <button id="r1-4" onclick="javascript:fordisplay('/')">/</button>
+    </div>
+    <div class="second-row">
+        <button id="r2-1" onclick="javascript:fordisplay(7)">7</button>
+        <button id="r2-2" onclick="javascript:fordisplay(8)">8</button>
+        <button id="r2-3" onclick="javascript:fordisplay(9)">9</button>
+        <button id="r2-4" onclick="javascript:fordisplay('X')">X</button>
+    </div>
+    <div class="third-row">
+        <button id="r3-1" onclick="javascript:fordisplay(4)">4</button>
+        <button id="r3-2" onclick="javascript:fordisplay(5)">5</button>
+        <button id="r3-3" onclick="javascript:fordisplay(6)">6</button>
+        <button id="r3-4">-</button>
+    </div>
+    <div class="fourth-row">
+        <button id="r4-1" onclick="javascript:fordisplay(1)">1</button>
+        <button id="r4-2" onclick="javascript:fordisplay(2)">2</button>
+        <button id="r4-3" onclick="javascript:fordisplay(3)">3</button>
+        <button id="r4-4" onclick="javascript:fordisplay('+')">+</button>
+    </div>
+    <div class="fifth-row">
+        <button id="r5-1" onclick="javascript:fordisplay(0)">0</button>
+        <button id="r5-2" onclick="javascript:fordisplay('.')">.</button>
+        <button id="r5-3" onclick="javascript:solve()">=</button>
+        <button id="r5-3" onclick="javascript:retour()">retour</button>
+    </div>
+
+    <footer style="background-color: rgb(34, 98, 143);" class="page-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Notes:</h5>
+                    <p class="grey-text text-lighten-4">"Avec shishigami protecteurs des waifu".</p>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+
+                <a class="white-text text-lighten-3">Crée par ToniPortal</a>
+
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+</html>
