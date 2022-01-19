@@ -14,6 +14,17 @@ var compression = require('compression'),
 
 
 
+const { createServer } = require("http");
+const Server = require("socket.io");
+
+const httpServer = createServer();
+const io = new Server(httpServer, { /* options */ });
+
+io.on("connection", (socket) => {
+    console.log('test')
+});
+
+httpServer.listen(3080);
 
 app.listen(3000)
 
@@ -27,24 +38,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(helmet())
 app.use(compression())
-
-// server-sent event stream
-app.get('/events', function(req, res) {
-    res.setHeader('Content-Type', 'text/event-stream')
-    res.setHeader('Cache-Control', 'no-cache')
-
-    // send a ping approx every 2 seconds
-    var timer = setInterval(function() {
-        res.write('data: ping\n\n')
-
-        // !!! this is the important part
-        res.flush()
-    }, 2000)
-
-    res.on('close', function() {
-        clearInterval(timer)
-    })
-});
 
 colors.setTheme({ //mettre des couleur sur le console.log
     silly: 'rainbow',
@@ -87,16 +80,7 @@ var cache = (duration) => {
     }
 }
 
-// set up plain http server
 
-var http = express();
-// set up a route to redirect http to https
-http.get('*', function(req, res) {
-    res.redirect('https://' + req.headers.host + req.url);
-})
-
-// have it listen on 8080
-http.listen(8080);
 
 
 
@@ -117,7 +101,20 @@ app.get('/', cache(20), function(req, res) {
     }); //fs ecist
 });
 
+app.get('/phaser', function(req, res) {
+    fs.exists("./Page web/phaser/index.html", function(exists) {
+        if (exists) {
+            fs.readFile('./Page web/phaser/index.html', 'utf-8', function(error, content) {
+                    res.writeHead(200, { "Content-Type": "text/html" });
+                    res.end(content);
+                }) //fin fs read file
+        } else {
 
+            res.redirect('/notexist')
+
+        }; /*else exist */
+    }); //fs ecist
+});
 
 function makeid(length) {
     var result = '';
@@ -173,6 +170,14 @@ app.get('/calc', function(req, res) {
     }); //fs ecist
 });
 
+app.post('/sendchat', async function(request, res, next) {
+    var yourmessage = request.body.yourmessage
+    console.log(`${yourmessage}`);
+
+    next();
+}, function(req, res) {
+    res.redirect('/chat')
+});
 
 
 
